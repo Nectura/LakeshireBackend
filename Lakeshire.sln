@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32210.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LakeshireAPI", "LakeshireAPI\LakeshireAPI.csproj", "{C3391674-2A6D-4B2D-B419-D9265E57FF6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LakeshireAPI", "LakeshireAPI\LakeshireAPI.csproj", "{C3391674-2A6D-4B2D-B419-D9265E57FF6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lakeshire.Common", "Lakeshire.Common\Lakeshire.Common.csproj", "{39ED0CD7-6820-4E72-8986-C4FC830FDD50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lakeshire.Common", "Lakeshire.Common\Lakeshire.Common.csproj", "{39ED0CD7-6820-4E72-8986-C4FC830FDD50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LakeshireAuth", "LakeshireAuth\LakeshireAuth.csproj", "{7E29C1F1-6C13-4EAE-96A2-3CCE0184865C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LakeshireAuth", "LakeshireAuth\LakeshireAuth.csproj", "{7E29C1F1-6C13-4EAE-96A2-3CCE0184865C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LakeshireTests", "LakeshireTests\LakeshireTests.csproj", "{79DC7F0E-74CF-403D-A106-88EF7906814B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{7E29C1F1-6C13-4EAE-96A2-3CCE0184865C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E29C1F1-6C13-4EAE-96A2-3CCE0184865C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E29C1F1-6C13-4EAE-96A2-3CCE0184865C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79DC7F0E-74CF-403D-A106-88EF7906814B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79DC7F0E-74CF-403D-A106-88EF7906814B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79DC7F0E-74CF-403D-A106-88EF7906814B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79DC7F0E-74CF-403D-A106-88EF7906814B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
