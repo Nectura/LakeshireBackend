@@ -1,6 +1,4 @@
-﻿using Lakeshire.Common.Enums;
-
-namespace LakeshireAuth.Models.Requests;
+﻿namespace LakeshireAuth.Models.Requests;
 
 public sealed class RegistrationRequest
 {

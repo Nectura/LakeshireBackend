@@ -1,5 +1,4 @@
 ﻿using Lakeshire.Common.Validators;
-using LakeshireAuth.Models.Requests;
 
 namespace LakeshireAuth.Validators.Models;
 
