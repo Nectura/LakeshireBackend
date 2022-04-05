@@ -1,3 +1,3 @@
 ﻿namespace Lakeshire.Common.Validators.Interfaces;
 
-public interface IAsyncValidatorRequest {}
+public interface IValidationRequest { }

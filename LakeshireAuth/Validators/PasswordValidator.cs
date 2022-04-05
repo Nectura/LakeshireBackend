@@ -4,7 +4,7 @@ using LakeshireAuth.Validators.Models;
 
 namespace LakeshireAuth.Validators;
 
-public sealed class PasswordValidator : IAsyncValidator<PasswordValidatorRequest, PasswordValidatorResponse>
+public sealed class PasswordValidator : IAsyncValidator<PasswordValidationRequest, PasswordValidationResponse>
 {
     private readonly IAuthService _authService;
 
@@ -13,9 +13,9 @@ public sealed class PasswordValidator : IAsyncValidator<PasswordValidatorRequest
         _authService = authService;
     }
 
-    public async Task<PasswordValidatorResponse> ValidateAsync(PasswordValidatorRequest request, CancellationToken cancellationToken = default)
+    public async Task<PasswordValidationResponse> ValidateAsync(PasswordValidationRequest request, CancellationToken cancellationToken = default)
     {
-        return new PasswordValidatorResponse
+        return new PasswordValidationResponse
         {
             IsValid = await _authService.CompareHashesAsync(request.PasswordInput, request.SaltHash, request.ExpectedOutput, cancellationToken)
         };

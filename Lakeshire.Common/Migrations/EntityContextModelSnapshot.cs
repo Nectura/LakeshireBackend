@@ -24,10 +24,9 @@ namespace Lakeshire.Common.Migrations
 
             modelBuilder.Entity("Lakeshire.Common.DAL.Models.UserAccount", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -62,8 +61,8 @@ namespace Lakeshire.Common.Migrations
 
             modelBuilder.Entity("Lakeshire.Common.DAL.Models.UserAccountServiceAuth", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(450)");
@@ -82,10 +81,9 @@ namespace Lakeshire.Common.Migrations
 
             modelBuilder.Entity("Lakeshire.Common.DAL.Models.UserPost", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Comments")
                         .HasColumnType("int");
@@ -104,9 +102,8 @@ namespace Lakeshire.Common.Migrations
                     b.Property<int>("Shares")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

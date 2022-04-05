@@ -2,7 +2,7 @@
 
 namespace LakeshireAuth.Validators.Models;
 
-public class PasswordValidatorRequest : IAsyncValidatorRequest
+public class PasswordValidationRequest : IAsyncValidationRequest
 {
     public string PasswordInput { get; set; } = "";
     public byte[] SaltHash { get; set; } = Array.Empty<byte>();

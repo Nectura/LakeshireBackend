@@ -13,7 +13,7 @@ namespace Lakeshire.Common.Migrations
                 name: "UserAccounts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false, defaultValueSql: "NEWID()"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -31,7 +31,7 @@ namespace Lakeshire.Common.Migrations
                 name: "UserAccountServiceAuths",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RefreshToken = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Scopes = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AbsoluteExpirationTime = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -51,8 +51,8 @@ namespace Lakeshire.Common.Migrations
                 name: "UserPosts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false, defaultValueSql: "NEWID()"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(280)", maxLength: 280, nullable: false),
                     Comments = table.Column<int>(type: "int", nullable: false),
                     Shares = table.Column<int>(type: "int", nullable: false),

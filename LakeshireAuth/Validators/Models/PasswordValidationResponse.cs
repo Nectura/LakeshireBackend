@@ -2,7 +2,7 @@
 
 namespace LakeshireAuth.Validators.Models;
 
-public class PasswordValidatorResponse : IAsyncValidatorResponse
+public class PasswordValidationResponse : IAsyncValidationResponse
 {
     public bool IsValid { get; set; }
     public string? ValidationError { get; set; }

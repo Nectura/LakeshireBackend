@@ -7,6 +7,6 @@ public class JwtAuthConfig
     public string PrivateKey { get; set; } = "";
     public bool ValidateAudience { get; set; }
     public bool ValidateIssuer { get; set; }
-    public int AccessTokenLifeSpanInSeconds { get; set; }
-    public int RefreshTokenLifeSpanInSeconds { get; set; }
+    public int AccessTokenLifeSpanInMinutes { get; set; }
+    public int RefreshTokenLifeSpanInMinutes { get; set; }
 }

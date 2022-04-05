@@ -14,6 +14,11 @@ public class EntityRepository<T> : IEntityRepository<T> where T : class
         _context = context;
     }
 
+    public async Task<bool> AnyAsync(Expression<Func<T, bool>> expression, CancellationToken cancellationToken = default)
+    {
+        return await Query(expression).AnyAsync(cancellationToken);
+    }
+    
     public async Task<T?> FindAsync<TPK>(TPK primaryKey, CancellationToken cancellationToken = default)
     {
         return await _context.Set<T>().FindAsync(new object?[] { primaryKey }, cancellationToken: cancellationToken);

@@ -2,7 +2,7 @@
 
 public interface IUserAccountServiceAuth
 {
-    string UserId { get; set; }
+    Guid UserId { get; set; }
     string RefreshToken { get; set; }
     string Scopes { get; set; }
     DateTime AbsoluteExpirationTime { get; set; }

@@ -2,8 +2,8 @@
 
 public interface IUserPost
 {
-    string Id { get; set; }
-    string UserId { get; set; }
+    Guid Id { get; set; }
+    Guid UserId { get; set; }
     string Content { get; set; }
     int Comments { get; set; }
     int Shares { get; set; }

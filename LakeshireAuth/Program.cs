@@ -3,6 +3,7 @@ using Lakeshire.Common.Configs;
 using Lakeshire.Common.DAL.DataContexts;
 using Lakeshire.Common.DAL.WorkUnits;
 using Lakeshire.Common.DAL.WorkUnits.Interfaces;
+using Lakeshire.Common.Services;
 using LakeshireAuth.Endpoints;
 using LakeshireAuth.Services;
 using LakeshireAuth.Services.Interfaces;
@@ -49,8 +50,13 @@ builder.Services.AddDbContext<EntityContext>(options => options.UseSqlServer(ent
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<JwtAuthService>();
+builder.Services.AddScoped<RegexValidationService>();
+
 builder.Services.AddScoped<PasswordStructureValidator>();
 builder.Services.AddScoped<PasswordValidator>();
+builder.Services.AddScoped<LoginValidator>();
+builder.Services.AddScoped<RegistrationValidator>();
+builder.Services.AddScoped<RefreshTokenValidator>();
 
 // Add the units of work here
 builder.Services.AddScoped<IAuthWorkUnit, AuthWorkUnit>();
@@ -65,7 +71,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 // Register endpoints here
+app.MapGet("/", httpContext =>
+{
+    httpContext.Response.Redirect("/swagger"); 
+    return Task.CompletedTask;
+});
 app.AddLoginEP();
+app.AddRegisterEP();
+app.AddRefreshTokenEP();
 
 app.Run();

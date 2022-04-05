@@ -4,7 +4,7 @@ namespace Lakeshire.Common.DAL.Models.Interfaces;
 
 public interface IUserAccount
 {
-    string Id { get; set; }
+    Guid Id { get; set; }
     string FirstName { get; set; }
     string LastName { get; set; }
     string EmailAddress { get; set; }

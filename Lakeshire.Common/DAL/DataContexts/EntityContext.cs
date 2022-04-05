@@ -30,9 +30,6 @@ public sealed class EntityContext : DbContext, IEntityContext
         builder.Entity<UserAccount>()
             .HasKey(m => m.Id);
         builder.Entity<UserAccount>()
-            .Property(m => m.Id)
-            .HasDefaultValueSql("NEWID()");
-        builder.Entity<UserAccount>()
             .HasMany(m => m.Posts)
             .WithOne(m => m.User)
             .OnDelete(DeleteBehavior.Cascade);
@@ -46,9 +43,6 @@ public sealed class EntityContext : DbContext, IEntityContext
 
         builder.Entity<UserPost>()
             .HasKey(m => m.Id);
-        builder.Entity<UserPost>()
-            .Property(m => m.Id)
-            .HasDefaultValueSql("NEWID()");
         builder.Entity<UserPost>()
             .Property(m => m.Content)
             .HasMaxLength(280);

@@ -30,7 +30,7 @@ public class AuthUnitTest
 
         var passwordValidator = new PasswordValidator(authService);
 
-        var correctPasswordValidationResponse = await passwordValidator.ValidateAsync(new PasswordValidatorRequest
+        var correctPasswordValidationResponse = await passwordValidator.ValidateAsync(new PasswordValidationRequest
         {
             PasswordInput = passwordInput,
             SaltHash = saltHash,
@@ -39,7 +39,7 @@ public class AuthUnitTest
 
         Assert.True(correctPasswordValidationResponse.IsValid, $"Failed to validate the user password after encryption: {correctPasswordValidationResponse.ValidationError ?? string.Empty}");
 
-        var wrongPasswordValidationResponse = await passwordValidator.ValidateAsync(new PasswordValidatorRequest
+        var wrongPasswordValidationResponse = await passwordValidator.ValidateAsync(new PasswordValidationRequest
         {
             PasswordInput = wrongPasswordInput,
             SaltHash = saltHash,

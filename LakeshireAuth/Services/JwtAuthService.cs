@@ -30,21 +30,18 @@ public sealed class JwtAuthService
         _authWorkUnit = authWorkUnit;
     }
     
-    public async Task<UserJwtToken> RefreshUserAccessTokenAsync(string userId, string refreshToken, string[]? scopes = null, CancellationToken cancellationToken = default)
+    public async Task<UserJwtToken?> RefreshUserAccessTokenAsync(Guid userId, string refreshToken, string[]? scopes = null, CancellationToken cancellationToken = default)
     {
         var userAuth = await _authWorkUnit.UserAccountAuths
             .Query(m => m.UserId == userId && m.RefreshToken == refreshToken)
             .Include(m => m.User)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (userAuth?.User == null)
-            throw new FileNotFoundException();
-
-        if (DateTime.UtcNow >= userAuth.AbsoluteExpirationTime)
-            throw new InvalidCredentialException();
-
+        if (userAuth?.User == null || DateTime.UtcNow >= userAuth.AbsoluteExpirationTime)
+            return default;
+        
         userAuth.RefreshToken = _authService.GenerateRandomCryptoSafeString();
-        userAuth.AbsoluteExpirationTime = DateTime.UtcNow.AddSeconds(_jwtAuthConfig.Value.RefreshTokenLifeSpanInSeconds);
+        userAuth.AbsoluteExpirationTime = DateTime.UtcNow.AddMinutes(_jwtAuthConfig.Value.RefreshTokenLifeSpanInMinutes);
 
         await _authWorkUnit.CommitChangesAsync(cancellationToken);
 
@@ -61,7 +58,7 @@ public sealed class JwtAuthService
         {
             User = userAccount,
             RefreshToken = _authService.GenerateRandomCryptoSafeString(),
-            AbsoluteExpirationTime = DateTime.UtcNow.AddSeconds(_jwtAuthConfig.Value.RefreshTokenLifeSpanInSeconds)
+            AbsoluteExpirationTime = DateTime.UtcNow.AddMinutes(_jwtAuthConfig.Value.RefreshTokenLifeSpanInMinutes)
         };
         
         _authWorkUnit.UserAccountAuths.Add(userAuth);
@@ -75,7 +72,7 @@ public sealed class JwtAuthService
         };
     }
 
-    public async Task ExpireRefreshTokensAsync(UserAccount userAccount, CancellationToken cancellationToken = default)
+    public async Task ExpireUserAccountRefreshTokensAsync(UserAccount userAccount, CancellationToken cancellationToken = default)
     {
         var userAuths = await _authWorkUnit.UserAccountAuths
             .Query(m => m.UserId == userAccount.Id)
@@ -91,7 +88,7 @@ public sealed class JwtAuthService
     {
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, userAccount.Id),
+            new(JwtRegisteredClaimNames.Sub, userAccount.Id.ToString()),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
@@ -100,7 +97,7 @@ public sealed class JwtAuthService
         var securityToken = new JwtSecurityToken(
             issuer: _jwtAuthConfig.Value.Issuer,
             audience: _jwtAuthConfig.Value.Audience,
-            expires: DateTime.UtcNow.AddSeconds(_jwtAuthConfig.Value.AccessTokenLifeSpanInSeconds),
+            expires: DateTime.UtcNow.AddMinutes(_jwtAuthConfig.Value.AccessTokenLifeSpanInMinutes),
             claims: claims,
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
         );

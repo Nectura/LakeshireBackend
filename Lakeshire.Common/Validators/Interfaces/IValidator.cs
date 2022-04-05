@@ -1,6 +1,8 @@
 ﻿namespace Lakeshire.Common.Validators.Interfaces;
 
-public interface IValidator
+public interface IValidator<in VRequest, VResponse>
+    where VRequest : IValidationRequest
+    where VResponse : IValidationResponse
 {
-    bool TryValidate(out string? validationError);
+    bool TryValidate(VRequest request, out VResponse? response);
 }
