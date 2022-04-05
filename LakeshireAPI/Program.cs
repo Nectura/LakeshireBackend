@@ -51,4 +51,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Register endpoints here
+app.MapGet("/", httpContext =>
+{
+    httpContext.Response.Redirect("/swagger"); 
+    return Task.CompletedTask;
+});
+
 app.Run();
