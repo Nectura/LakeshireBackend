@@ -55,7 +55,7 @@ public static class AuthEP
                 return Results.Ok(jwtToken);
             })
             .WithName("Login")
-            .Produces<UserJwtToken>()
+            .Produces<UserJwtTokenResponse>()
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesValidationProblem(StatusCodes.Status401Unauthorized);
     }
@@ -133,7 +133,7 @@ public static class AuthEP
                     : Results.Ok(refreshToken);
             })
             .WithName("Refresh")
-            .Produces<UserJwtToken>()
+            .Produces<UserJwtTokenResponse>()
             .ProducesValidationProblem(StatusCodes.Status401Unauthorized);
     }
 }

@@ -30,7 +30,7 @@ public sealed class JwtAuthService
         _authWorkUnit = authWorkUnit;
     }
     
-    public async Task<UserJwtToken?> RefreshUserAccessTokenAsync(Guid userId, string refreshToken, string[]? scopes = null, CancellationToken cancellationToken = default)
+    public async Task<UserJwtTokenResponse?> RefreshUserAccessTokenAsync(Guid userId, string refreshToken, string[]? scopes = null, CancellationToken cancellationToken = default)
     {
         var userAuth = await _authWorkUnit.UserAccountAuths
             .Query(m => m.UserId == userId && m.RefreshToken == refreshToken)
@@ -45,14 +45,14 @@ public sealed class JwtAuthService
 
         await _authWorkUnit.CommitChangesAsync(cancellationToken);
 
-        return new UserJwtToken
+        return new UserJwtTokenResponse
         {
             AccessToken = new JwtSecurityTokenHandler().WriteToken(ConstructJwtSecurityToken(userAuth.User)),
             RefreshToken = userAuth.RefreshToken
         };
     }
     
-    public async Task<UserJwtToken> CreateUserAccessTokenAsync(UserAccount userAccount, string[]? scopes = null, CancellationToken cancellationToken = default)
+    public async Task<UserJwtTokenResponse> CreateUserAccessTokenAsync(UserAccount userAccount, string[]? scopes = null, CancellationToken cancellationToken = default)
     {
         var userAuth = new UserAccountServiceAuth
         {
@@ -65,7 +65,7 @@ public sealed class JwtAuthService
         
         await _authWorkUnit.CommitChangesAsync(cancellationToken);
 
-        return new UserJwtToken
+        return new UserJwtTokenResponse
         {
             AccessToken = new JwtSecurityTokenHandler().WriteToken(ConstructJwtSecurityToken(userAccount)),
             RefreshToken = userAuth.RefreshToken
