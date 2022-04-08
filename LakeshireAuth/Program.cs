@@ -20,6 +20,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //builder.Services.AddValidators<IValidator, IAsyncValidator<IAsyncValidatorRequest, IAsyncValidatorResponse>>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MainPolicy",
+        pBuilder =>
+        {
+            pBuilder.WithOrigins("https://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .WithExposedHeaders("X-User-Agent", "X-Grpc-Web", "content-type", "x-grpc-web", "x-user-agent", "grpc-status", "grpc-message", "authorization");
+        });
+});
+
 var authSettings = builder.Configuration.GetSection("JwtAuth").Get<JwtAuthConfig>();
 if (authSettings == default)
     throw new Exception("Failed to find the JwtAuth section in appsettings.json!");
@@ -71,6 +84,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("MainPolicy");
 
 // Register endpoints here
 app.MapGet("/", httpContext =>
