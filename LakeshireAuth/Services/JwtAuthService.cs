@@ -29,16 +29,23 @@ public sealed class JwtAuthService
         _authWorkUnit = authWorkUnit;
     }
     
+    // TODO: switch to the UserAccountServiceAuthTree, UserAccountServiceAuthTreeNode approach for enhanced security
     public async Task<UserJwtTokenResponse?> RefreshUserAccessTokenAsync(Guid userId, string refreshToken, string[]? scopes = null, CancellationToken cancellationToken = default)
     {
         var userAuth = await _authWorkUnit.UserAccountAuths
-            .Query(m => m.UserId == userId && m.RefreshToken == refreshToken)
+            .Query(m => m.UserId == userId && m.RefreshToken == refreshToken || m.UserId == userId && m.PreviousRefreshToken == refreshToken)
             .Include(m => m.User)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (userAuth?.User == null || DateTime.UtcNow >= userAuth.AbsoluteExpirationTime)
+        // Note: User Deletion Check, Absolute Lifetime Strategy, Refresh Token Automatic Reuse Detection
+        if (userAuth?.User == default || DateTime.UtcNow >= userAuth.AbsoluteExpirationTime || userAuth.PreviousRefreshToken == refreshToken)
+        {
+            _authWorkUnit.UserAccountAuths.Remove(userAuth);
+            await _authWorkUnit.CommitChangesAsync(cancellationToken);
             return default;
+        }
         
+        // Note: Refresh Token Rotation
         userAuth.RefreshToken = _authService.GenerateRandomCryptoSafeString();
         userAuth.AbsoluteExpirationTime = DateTime.UtcNow.AddMinutes(_jwtAuthConfig.Value.RefreshTokenLifeSpanInMinutes);
 
