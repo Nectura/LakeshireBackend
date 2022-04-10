@@ -38,9 +38,6 @@ public sealed class EntityContext : DbContext, IEntityContext
             .WithOne(m => m.User)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Entity<UserAccountServiceAuth>()
-            .HasKey(m => new { m.UserId, m.RefreshToken });
-
         builder.Entity<UserPost>()
             .HasKey(m => m.Id);
         builder.Entity<UserPost>()

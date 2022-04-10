@@ -77,12 +77,12 @@ public static class AuthEP
 
                 if (!registrationValidator.TryValidate(registrationValidationRequest, out var validationResponse))
                     return Results.BadRequest(validationResponse);
-
+                
+                if (!passwordStructureValidator.Validate(request.Password, out var validationError))
+                    return Results.BadRequest(validationError);
+                
                 if (await authWorkUnit.UserAccounts.IsEmailTakenAsync(request.EmailAddress, cancellationToken))
                     return Results.Conflict();
-
-                if (!passwordStructureValidator.Validate(request.Password, out var validationError))
-                    return Results.Unauthorized();
 
                 var (saltHash, finalizedOutput) =
                     await authService.EncryptInputAsync(request.Password, cancellationToken);
@@ -104,8 +104,7 @@ public static class AuthEP
             .WithName("Register")
             .Produces(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
-            .ProducesValidationProblem(StatusCodes.Status409Conflict)
-            .ProducesValidationProblem(StatusCodes.Status401Unauthorized);
+            .ProducesValidationProblem(StatusCodes.Status409Conflict);
     }
 
     public static void AddRefreshTokenEP(this WebApplication webApp)
