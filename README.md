@@ -1,6 +1,6 @@
 # LakeshireBackend
 
-The Lakeshire project is a demo created to demonstrate my skills as a full-stack web engineer.
+The Lakeshire project is a demo created to demonstrate my skills as a software engineer.
 
 The project is a social media platform.
 
